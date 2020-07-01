@@ -8,7 +8,7 @@ import React, { useRef, useEffect } from 'react';
 
 /**
  * HOW DOES THIS WORK?
- * ✅@function initAudio() - initialize an audio analyser and connect it to an audio streaming input
+ * @function initAudio() - initialize an audio analyser and connect it to an audio streaming input
  * @function getFrequencyData(drawFunction) - capture current frequency data and pass it to draw function
  * @function draw(frequencyDataArray) - draw based on passed-in frequency data
  * @function runVisualizer() - does two things:
@@ -32,7 +32,7 @@ const Canvas = ({ getFrequencyData, ...props }) => {
     for (let i = 0; i < frequencyDataArray.length; i++) {
       context.save()
       context.fillStyle = `rgb(${5 * i}, ${255 - 5 * i}, 255)`
-      context.translate(10 + i*2, canvas.height - 10)
+      context.translate(100 + i*2, canvas.height - 10)
       context.fillRect(0, 0, 1, -frequencyDataArray[i]*1.5)
       context.restore()
     }

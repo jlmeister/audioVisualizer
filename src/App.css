@@ -1,0 +1,23 @@
+html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+section {
+  padding: 20px;
+  border: 3px solid red;
+}
+
+h1 {
+  margin: 0 0 15px;
+}
+
+label:not(:last-child)>input {
+  margin-bottom: 10px;
+}

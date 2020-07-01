@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react';
 export const useAudioStream = () => {
   const [analyser, setAnalyser] = useState(null)
 
-  /**
-   * @function initAudio() - initialize an audio analyser and connect it to an audio streaming input
-   */
+  // initialize an audio analyser and connect it to an audio streaming input
   function initAudio() {
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
@@ -20,5 +18,6 @@ export const useAudioStream = () => {
   }
 
   useEffect(initAudio, [])
+  
   return analyser;
 }
