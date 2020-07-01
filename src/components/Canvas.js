@@ -1,6 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 
 /**
+ * @TODO
+ * @function getPixelRatio(context)
+ * Get the pixel ratio for the device so resolution doesn't look fuzzy on some devices
+ */
+
+/**
  * HOW DOES THIS WORK?
  * ✅@function initAudio() - initialize an audio analyser and connect it to an audio streaming input
  * @function getFrequencyData(drawFunction) - capture current frequency data and pass it to draw function
@@ -13,46 +19,36 @@ import React, { useRef, useEffect } from 'react';
  *   requestAnimationFrame(runVisualizer)
  */
 
-/**
- * @TODO
- * @function getPixelRatio(context)
- * Get the pixel ratio for the device so resolution doesn't look fuzzy on some devices
- */
-
 const Canvas = ({ getFrequencyData, ...props }) => {
   // create a Ref for the canvas DOM node
   const canvasRef = useRef(null)
-  // create a function for the recursive drawing animation
-  useEffect(() => {
-    // select the canvas element from the DOM
-    const canvas = canvasRef.current
-    // create a 2D canvas context
-    const context = canvas.getContext('2d')
-    let requestId, i = 0;
-    const draw = frequencyDataArray => {
-      // do draw stuff here
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      context.beginPath()
-      context.arc(
-        canvas.width / 2,
-        canvas.height / 2,
-        (canvas.height / 3) * Math.abs(Math.cos(i)),
-        0,
-        2 * Math.PI
-      )
-      context.fill()
-      i += 0.05
-      requestId = requestAnimationFrame(draw)
+  
+  function draw(frequencyDataArray) {
+    const canvas = canvasRef.current // select the canvas element from the DOM
+    const context = canvas.getContext('2d') // create a 2D canvas context
+
+    context.clearRect(0, 0, canvas.width, canvas.height) // clear the canvas
+    // draw the bars
+    for (let i = 0; i < frequencyDataArray.length; i++) {
+      context.save()
+      context.fillStyle = `rgb(${5 * i}, ${255 - 5 * i}, 255)`
+      context.translate(10 + i*2, canvas.height - 10)
+      context.fillRect(0, 0, 1, -frequencyDataArray[i]*1.5)
+      context.restore()
     }
-    draw()
+  }
+
+  function runVisualizer() {
+    getFrequencyData(draw)
+    let requestId = requestAnimationFrame(runVisualizer)
 
     return () => {
       cancelAnimationFrame(requestId)
     }
-  })
-  console.log('count me for every render')
+  }
+  useEffect(runVisualizer)
 
-  return <canvas ref={canvasRef} {...props} />
+  return <canvas width={window.innerWidth} height={window.innerHeight * 2 / 3} ref={canvasRef} {...props} />
 }
 
 export { Canvas }

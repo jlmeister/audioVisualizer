@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Canvas } from './components/Canvas';
 import { useAudioStream } from "./components/hooks/useAudioStream";
 
@@ -30,20 +30,14 @@ function App() {
     const amplitudeArray = new Uint8Array(bufferLength)
     // fill the array with current frequency data from the analyser
     analyser.getByteFrequencyData(amplitudeArray)
+    // call the draw function to display the data
     drawFunction(amplitudeArray)
     // requestAnimationFrame(() => getFrequencyData(console.log))
   }
 
-  useEffect(() => {
-    // ... then start the animation
-    requestAnimationFrame(() => getFrequencyData(console.log))
-    // using arrow function expression to allow passing in a callback to getFrequencyData, for now.
-    // need to create a separate function to call instead of getFrequencyData
-  })
-
   return (
     <div className="App">
-      <Canvas getFrequencyData={getFrequencyData} style={{ border: 'solid red 3px' }} />
+      <Canvas getFrequencyData={getFrequencyData} />
     </div>
   );
 }
