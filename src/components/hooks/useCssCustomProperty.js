@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useCssCustomProperty = (cssVar, initialValue = '#ffffff') => {
+export function useCssCustomProperty(cssVar, initialValue = '#ffffff') {
   const [value, setValue] = useState(initialValue)
 
   function handleChange(e) {

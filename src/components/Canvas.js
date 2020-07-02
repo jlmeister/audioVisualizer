@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
+import { GraphicsContext } from "./context/GraphicsContext";
 
 /**
  * @TODO
@@ -19,9 +20,10 @@ import React, { useRef, useEffect } from 'react';
  *   requestAnimationFrame(runVisualizer)
  */
 
-const Canvas = ({ getFrequencyData, ...props }) => {
+function Canvas({ getFrequencyData, ...props }) {
   // create a Ref for the canvas DOM node
   const canvasRef = useRef(null)
+  const { innerColor, outerColor, barHeightScale, barWidth, spacing,  } = useContext(GraphicsContext)
   
   function draw(frequencyDataArray) {
     const canvas = canvasRef.current // select the canvas element from the DOM
@@ -31,9 +33,15 @@ const Canvas = ({ getFrequencyData, ...props }) => {
     // draw the bars
     for (let i = 0; i < frequencyDataArray.length; i++) {
       context.save()
-      context.fillStyle = `rgb(${5 * i}, ${255 - 5 * i}, 255)`
-      context.translate(100 + i*2, canvas.height - 10)
-      context.fillRect(0, 0, 1, -frequencyDataArray[i]*1.5)
+      const gradient = context.createLinearGradient(0, 0, 0, -frequencyDataArray[i] * barHeightScale.value)
+      if (innerColor.value.length === 7 && outerColor.value.length === 7) {
+        gradient.addColorStop(0, innerColor.value)
+        gradient.addColorStop(1, outerColor.value)
+      }
+      // context.fillStyle = `rgb(${5 * i}, ${255 - 5 * i}, 255)`
+      context.fillStyle = gradient
+      context.translate(100 + i*(spacing.value + barWidth.value), canvas.height - 10)
+      context.fillRect(0, 0, barWidth.value, -frequencyDataArray[i]*barHeightScale.value)
       context.restore()
     }
   }
