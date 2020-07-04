@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { GraphicsContextProvider } from "./components/context/GraphicsContext";
 import { AudioContextProvider } from "./components/context/AudioContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GraphicsContextProvider>
-      <AudioContextProvider>
-        <App />
-      </AudioContextProvider>
-    </GraphicsContextProvider>
+    <AudioContextProvider>
+      <App />
+    </AudioContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

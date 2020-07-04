@@ -1,17 +1,14 @@
-import React, { createContext, useContext } from 'react';
-import { useAudioStream } from "../hooks";
-import { GraphicsContext } from './GraphicsContext';
+import React, { createContext } from 'react';
+import { useAudioStream, useLocalStorage } from "../hooks";
 
 export const AudioContext = createContext()
 
 export const AudioContextProvider = ({ children }) => {
-  console.log('something caused AudioContextProvider to rerender')
-  const { resolution } = useContext(GraphicsContext)
-  const analyser = useAudioStream(resolution.value)
-  console.log('hmmm ', analyser)
+  const resolution = useLocalStorage('resolution', 64) // only powers of 2
+  const analyserRef = useAudioStream(resolution.value)
 
   return (
-    <AudioContext.Provider value={analyser} >
+    <AudioContext.Provider value={{ resolution, analyserRef }} >
       {children}
     </AudioContext.Provider>
   )

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-export function useCssCustomProperty(cssVar, initialValue = '#ffffff') {
-  const [value, setValue] = useState(initialValue)
+export function useCssCustomProperty(cssVar, initialValue = '') {
+  const [value, setValue] = useState(() => window.localStorage.getItem(cssVar) || initialValue)
 
   function handleChange(e) {
     setValue(e.target.value)
@@ -9,6 +9,7 @@ export function useCssCustomProperty(cssVar, initialValue = '#ffffff') {
 
   useEffect(() => {
     document.documentElement.style.setProperty(cssVar, value)
+    window.localStorage.setItem(cssVar, value) // persistence 😀
   }, [value, cssVar])
 
   return {

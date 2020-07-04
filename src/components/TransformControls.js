@@ -1,8 +1,15 @@
 import React, { useContext } from 'react';
-import { GraphicsContext } from "./context/GraphicsContext";
+import { useLocalStorage } from './hooks';
+import { AudioContext } from './context/AudioContext';
 
 export function TransformControls() {
-  const { startAngle, resolution } = useContext(GraphicsContext)
+  const { resolution } = useContext(AudioContext)
+  const startAngle = useLocalStorage('start-angle', 0)
+  const shape = useLocalStorage('shape', 'line')
+  const clearLocalStorage = () => {
+    window.localStorage.clear()
+    window.location.reload()
+  }
 
   return (
     <section>
@@ -24,6 +31,15 @@ export function TransformControls() {
           <option>4096</option>
         </select>
       </label>
+      <br/>
+      <label>Shape
+        <select {...shape}>
+          <option>line</option>
+          <option>circle</option>
+        </select>
+      </label>
+      <br/>
+      <button onClick={clearLocalStorage}>Reset Defaults</button>
     </section>
   )
 }

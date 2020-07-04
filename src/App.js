@@ -5,40 +5,13 @@ import './App.css'
 import { AudioContext } from './components/context/AudioContext';
 
 /**
- * HOW DOES THIS WORK?
- * ✅@function initAudio() - initialize an audio analyser and connect it to an audio streaming input
- * @function getFrequencyData(drawFunction) - capture current frequency data and pass it to draw function
- * @function draw(frequencyDataArray) - draw based on passed-in frequency data
- * @function runVisualizer() - does two things:
- *   Call getFrequencyData(draw)
- *   Call requestAnimationFrame(runVisualizer) 
- * On page load:
- *   initAudio()
- *   requestAnimationFrame(runVisualizer)
- */
-
-/**
  * REQUIREMENTS
- * @color
- *  - background color
- *  - text color
- *  - color at the rectangle base (near circle radius)
- *  - color at the top of the rectangle (away from circle radius)
- * @scale
- *  - bar height
- *  - bar width
- *  - spacing
- *  - resolution
- * @radius
- * @starting_angle
- *  - is it possible?
  * @choose_device
  *  - navigator.mediaDevices.enumerateDevices()
  */
 
 function App() {
-  const analyserRef = useContext(AudioContext)
-  console.log('hi ', analyserRef)
+  const { analyserRef } = useContext(AudioContext)
 
   // capture current frequency data and pass it to callback function
   function getFrequencyData(callback) {

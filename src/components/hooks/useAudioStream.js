@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 export function useAudioStream(resolution) {
   const analyserRef = useRef(null)
-  console.log('inside useAudioStream')
 
   // initialize an audio analyser and connect it to an audio streaming input
   function initAudio() {
